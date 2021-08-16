@@ -1,164 +1,209 @@
 <template>
   <div class="menu-actions-row">
-    <Tooltip :content="keymapShortcutString"
-             placement="bottom"
-             :transfer="true"
-             class="tooltip-height">
-        <span @click="showKeymap">
-            <img src="./../../assets/icon/keymap.svg" alt="Keymap" class="action-icon"/>
-        </span>
+    <Tooltip
+      :content="keymapShortcutString"
+      placement="bottom"
+      :transfer="true"
+      class="tooltip-height"
+    >
+      <span @click="showKeymap">
+        <img
+          src="./../../assets/icon/keymap.svg"
+          alt="Keymap"
+          class="action-icon"
+        />
+      </span>
     </Tooltip>
 
-    <Tooltip :content="$t('menu.synchronization')"
-             placement="bottom"
-             v-if="showIsSyncing"
-             :transfer="true"
-             class="tooltip-height">
-      <CloudSyncIcon class="action-icon"/>
+    <Tooltip
+      :content="$t('menu.synchronization')"
+      placement="bottom"
+      v-if="showIsSyncing"
+      :transfer="true"
+      class="tooltip-height"
+    >
+      <CloudSyncIcon class="action-icon" />
     </Tooltip>
 
-    <Tooltip :content="$t('menu.cloud_not_connected')"
-             placement="bottom"
-             v-if="showNotConnectedIcon"
-             :transfer="true"
-             class="tooltip-height">
-      <img src="./../../assets/icon/cloud_unset.svg"
-           @click="showCloudModal"
-           alt="Cloud - not connected"
-           class="action-icon"/>
+    <Tooltip
+      :content="$t('menu.cloud_not_connected')"
+      placement="bottom"
+      v-if="showNotConnectedIcon"
+      :transfer="true"
+      class="tooltip-height"
+    >
+      <img
+        src="./../../assets/icon/cloud_unset.svg"
+        @click="showCloudModal"
+        alt="Cloud - not connected"
+        class="action-icon"
+      />
     </Tooltip>
 
-    <Tooltip :content="$t('menu.cloud_connected')"
-             placement="bottom"
-             v-if="showConnectedIcon"
-             :transfer="true"
-             class="tooltip-height">
-      <img src="./../../assets/icon/cloud_connected.svg"
-           @click="showCloudModal"
-           class="action-icon"/>
+    <Tooltip
+      :content="$t('menu.cloud_connected')"
+      placement="bottom"
+      v-if="showConnectedIcon"
+      :transfer="true"
+      class="tooltip-height"
+    >
+      <img
+        src="./../../assets/icon/cloud_connected.svg"
+        @click="showCloudModal"
+        class="action-icon"
+      />
     </Tooltip>
 
-    <Tooltip :content="$t('menu.cloud_connection_error')"
-             placement="bottom"
-             v-if="showConnectionErrorIcon"
-             :transfer="true"
-             class="tooltip-height">
-      <img src="./../../assets/icon/cloud_error.svg"
-           @click="showCloudModal"
-           class="action-icon"/>
+    <Tooltip
+      :content="$t('menu.cloud_connection_error')"
+      placement="bottom"
+      v-if="showConnectionErrorIcon"
+      :transfer="true"
+      class="tooltip-height"
+    >
+      <img
+        src="./../../assets/icon/cloud_error.svg"
+        @click="showCloudModal"
+        class="action-icon"
+      />
     </Tooltip>
 
-    <Tooltip :content="$t('menu.app_settings')"
-             placement="bottom"
-             :transfer="true"
-             class="tooltip-height">
-      <img src="./../../assets/icon/settings.svg"
-           class="action-icon"
-           @click="showSettingsModal"/>
+    <Tooltip
+      :content="$t('menu.app_settings')"
+      placement="bottom"
+      :transfer="true"
+      class="tooltip-height"
+    >
+      <img
+        src="./../../assets/icon/settings.svg"
+        class="action-icon"
+        @click="showSettingsModal"
+      />
+      <!--0-->
+    </Tooltip>
+    <Tooltip
+      :content="$t('modals.award')"
+      placement="bottom"
+      :transfer="true"
+      class="tooltip-height"
+    >
+      <img
+        src="./../../assets/icon/cloud_connected.svg"
+        class="action-icon"
+        @click="showAward"
+      />
+      <!--0-->
     </Tooltip>
   </div>
 </template>
 
 <script>
-  import keyShortcutMixin from "./../../keyShortcutStringMixin";
-  import CloudSyncIcon from "./../../assets/icon/CloudSyncIcon";
+import keyShortcutMixin from "./../../keyShortcutStringMixin";
+import CloudSyncIcon from "./../../assets/icon/CloudSyncIcon";
 
-  export default {
-    name: "MenuActionsRow",
-    mixins: [keyShortcutMixin],
-    components: {CloudSyncIcon},
-    computed: {
-      showNotConnectedIcon() {
-        return !this.hasToken && !this.connectionError && !this.showIsSyncing;
-      },
-      showConnectedIcon() {
-        return this.hasToken && !this.connectionError && !this.showIsSyncing;
-      },
-      showConnectionErrorIcon() {
-        return this.connectionError && !this.showIsSyncing;
-      },
-      showIsSyncing() {
-        return this.isSyncing;
-      },
-      isSyncing() {
-        return this.$store.state.cloud.syncInProgress;
-      },
-      connectionError() {
-        return this.$store.state.cloud.connectionError || this.$store.state.cloud.syncError;
-      },
-      hasToken() {
-        return !!this.$store.state.cloud.token;
-      },
-      keymapShortcutString() {
-        return `${this.$t('menu.keymap')} - ${this.shortcutString("showKeymap")}`;
-      }
+export default {
+  name: "MenuActionsRow",
+  mixins: [keyShortcutMixin],
+  components: { CloudSyncIcon },
+  computed: {
+    showNotConnectedIcon() {
+      return !this.hasToken && !this.connectionError && !this.showIsSyncing;
     },
-    methods: {
-      showKeymap() {
-        this.$store.dispatch("showKeymapModal");
-      },
-      showSettingsModal() {
-        this.$store.dispatch("showSettingsModal");
-      },
-      showCloudModal() {
-        this.$store.dispatch("showCloudModal");
-      }
+    showConnectedIcon() {
+      return this.hasToken && !this.connectionError && !this.showIsSyncing;
+    },
+    showConnectionErrorIcon() {
+      return this.connectionError && !this.showIsSyncing;
+    },
+    showIsSyncing() {
+      return this.isSyncing;
+    },
+    isSyncing() {
+      return this.$store.state.cloud.syncInProgress;
+    },
+    connectionError() {
+      return (
+        this.$store.state.cloud.connectionError ||
+        this.$store.state.cloud.syncError
+      );
+    },
+    hasToken() {
+      return !!this.$store.state.cloud.token;
+    },
+    keymapShortcutString() {
+      return `${this.$t("menu.keymap")} - ${this.shortcutString("showKeymap")}`;
     }
-  };
+  },
+  methods: {
+    showKeymap() {
+      this.$store.dispatch("showKeymapModal");
+    },
+    showSettingsModal() {
+      this.$store.dispatch("showSettingsModal"); //1
+    },
+    showAward() {
+      this.$store.dispatch("showAward"); //1
+            //this.$store.dispatch("showLanguageModal"); //1
+
+    },
+    showCloudModal() {
+      this.$store.dispatch("showCloudModal");
+    }
+  }
+};
 </script>
 
 <style scoped>
-  .menu-actions-row {
-    padding: 8px 32px;
-    display: flex;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    justify-content: space-around;
-    align-items: center;
-    background-color: #404c5a;
-    width: 100%;
-    user-select: none;
-  }
+.menu-actions-row {
+  padding: 8px 32px;
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #404c5a;
+  width: 100%;
+  user-select: none;
+}
 
-  .tooltip-height {
-    height: 24px;
-  }
+.tooltip-height {
+  height: 24px;
+}
 
-  .action-icon {
-    color: #2C2E32;
-    -webkit-transition: all .3s;
-    -moz-transition: all .3s;
-    -ms-transition: all .3s;
-    -o-transition: all .3s;
-    transition: all .3s;
-    opacity: .6;
-    cursor: pointer;
-    filter: drop-shadow(0 0 2px rgba(70, 70, 70, 0.8));
-  }
+.action-icon {
+  color: #2c2e32;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  opacity: 0.6;
+  cursor: pointer;
+  filter: drop-shadow(0 0 2px rgba(70, 70, 70, 0.8));
+}
 
-  .action-icon:hover {
-    opacity: 1;
-    color: #2C2E32;
-    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.8));
-  }
+.action-icon:hover {
+  opacity: 1;
+  color: #2c2e32;
+  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.8));
+}
 
-  i {
-    padding-left: 8px;
-    cursor: pointer;
-  }
+i {
+  padding-left: 8px;
+  cursor: pointer;
+}
 
-  i:hover {
-    color: #fff;
-  }
+i:hover {
+  color: #fff;
+}
 
-  svg {
-    cursor: pointer;
-    margin-top: 2px;
-  }
+svg {
+  cursor: pointer;
+  margin-top: 2px;
+}
 
-  svg:hover {
-    color: #fff;
-  }
-
+svg:hover {
+  color: #fff;
+}
 </style>

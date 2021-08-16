@@ -189,6 +189,7 @@
         this.$store.dispatch('fetchBoardItems', this.boardId);
         this.$store.dispatch('fetchBoards');
         this.$bus.$emit('focusOnAddItem');
+                this.$store.dispatch("showAward");//1
       },
       removeItem () {
         this.$store.dispatch('removeItem', {

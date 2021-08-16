@@ -16,6 +16,7 @@
     <key-map-modal/>
     <cloud-modal/>
     <language-modal/>
+    <award/>
   </div>
 </template>
 
@@ -30,12 +31,14 @@
   import CloudModal from './modals/CloudModal';
   import cloudMixin from './../cloudMixin';
   import LanguageModal from './modals/LanguageModal';
+  import Award from './modals/Award';
 
 
   export default {
     name: 'MainPage',
     mixins: [cloudMixin],
     components: {
+      Award,
       LanguageModal,
       CloudModal,
       DuplicateBoardModal,

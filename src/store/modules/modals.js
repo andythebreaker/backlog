@@ -41,6 +41,9 @@ const state = {
   language: {
     isVisible: false,
   },
+  award: {
+    isVisible: false,
+  }
 };
 
 const mutations = {
@@ -68,6 +71,9 @@ const mutations = {
   HIDE_SETTINGS(state) {
     state.settings.isVisible = false;
   },
+  HIDE_AWARD(state) {
+    state.award.isVisible = false;
+  },
   HIDE_UPDATE_MODAL(state) {
     state.update.isVisible = false;
   },
@@ -92,7 +98,7 @@ const mutations = {
   SHOW_CLOUD(state) {
     state.cloud.isVisible = true;
   },
-  SHOW_DUPLICATE_BOARD(state, {boardId, currentBoardName}) {
+  SHOW_DUPLICATE_BOARD(state, { boardId, currentBoardName }) {
     state.duplicateBoard.boardId = boardId;
     state.duplicateBoard.name = currentBoardName + " copy";
     state.duplicateBoard.isVisible = true;
@@ -106,13 +112,16 @@ const mutations = {
   SHOW_NEW_BOARD(state) {
     state.newBoard.isVisible = true;
   },
-  SHOW_RENAME_BOARD(state, {currentBoardName, boardId}) {
+  SHOW_RENAME_BOARD(state, { currentBoardName, boardId }) {
     state.renameBoard.isVisible = true;
     state.renameBoard.name = currentBoardName;
     state.renameBoard.boardId = boardId;
   },
-  SHOW_SETTINGS(state) {
+  SHOW_SETTINGS(state) {//3
     state.settings.isVisible = true;
+  },
+  SHOW_AWARD(state) {//3
+    state.award.isVisible = true;
   },
   SHOW_UPDATE_MODAL(state) {
     state.update.isVisible = true;
@@ -123,84 +132,88 @@ const mutations = {
 };
 
 const actions = {
-  duplicateBoard(context, {newName, boardId}) {
+  duplicateBoard(context, { newName, boardId }) {
     boardsRepository.duplicateBoard(boardId, newName);
   },
-  hideCloudModal({commit}) {
+  hideCloudModal({ commit }) {
     commit("HIDE_CLOUD");
   },
-  hideDuplicateBoard({commit}) {
+  hideDuplicateBoard({ commit }) {
     commit("HIDE_DUPLICATE_BOARD");
   },
-  hideFindItemModal({commit}) {
+  hideFindItemModal({ commit }) {
     commit("HIDE_FIND_ITEM_MODAL");
   },
-  hideKeymapModal({commit}) {
+  hideKeymapModal({ commit }) {
     commit("HIDE_KEYMAP_MODAL");
   },
-  hideNewBoardModal({commit}) {
+  hideNewBoardModal({ commit }) {
     commit("HIDE_NEW_BOARD");
   },
-  hideLanguageModal({commit}) {
+  hideLanguageModal({ commit }) {
     commit("HIDE_LANG_BOARD");
   },
-  hideRenameBoardModal({commit}) {
+  hideRenameBoardModal({ commit }) {
     commit("HIDE_RENAME_BOARD");
   },
-  hideSettingsModal({commit}) {
+  hideSettingsModal({ commit }) {
     commit("HIDE_SETTINGS");
   },
-  hideUpdateModal({commit}) {
+  hideUpdateModal({ commit }) {
     commit("HIDE_UPDATE_MODAL");
   },
-  resetNewBoardName({commit}) {
+  resetNewBoardName({ commit }) {
     commit("SET_NEW_BOARD_NAME", "");
   },
-  setDuplicatedBoardName({commit}, val) {
+  setDuplicatedBoardName({ commit }, val) {
     commit("SET_DUPLICATE_BOARD_NAME", val);
   },
-  setIsCapturing({commit}, val) {
+  setIsCapturing({ commit }, val) {
     commit("SET_IS_CAPTURING", val);
   },
-  setNewBoardName({commit}, val) {
+  setNewBoardName({ commit }, val) {
     commit("SET_NEW_BOARD_NAME", val);
   },
-  setRenamedBoardName({commit}, val) {
+  setRenamedBoardName({ commit }, val) {
     commit("SET_RENAMED_BOARD_NAME", val);
   },
-  setSystem({commit}, val) {
+  setSystem({ commit }, val) {
     commit("SET_SYSTEM", val);
   },
-  setIsConnecting({commit}, val) {
+  setIsConnecting({ commit }, val) {
     commit("SET_IS_CONNECTING", val);
   },
-  showCloudModal({commit}) {
+  showCloudModal({ commit }) {
     commit("SHOW_CLOUD");
   },
-  showDuplicateBoard({commit}, {boardId, currentBoardName}) {
-    commit("SHOW_DUPLICATE_BOARD", {boardId, currentBoardName});
+  showDuplicateBoard({ commit }, { boardId, currentBoardName }) {
+    commit("SHOW_DUPLICATE_BOARD", { boardId, currentBoardName });
   },
-  showFindItemModal({commit}) {
+  showFindItemModal({ commit }) {
     commit("SHOW_FIND_ITEM_MODAL");
   },
-  showKeymapModal({commit}) {
+  showKeymapModal({ commit }) {
     commit("SHOW_KEYMAP_MODAL");
   },
-  showNewBoardModal({commit}) {
+  showNewBoardModal({ commit }) {
     commit("SHOW_NEW_BOARD");
   },
-  showRenameBoardModal({commit}, {currentBoardName, boardId}) {
-    commit("SHOW_RENAME_BOARD", {currentBoardName, boardId});
+  showRenameBoardModal({ commit }, { currentBoardName, boardId }) {
+    commit("SHOW_RENAME_BOARD", { currentBoardName, boardId });
   },
-  showSettingsModal({commit}) {
+  showSettingsModal({ commit }) {//2
     commit("SHOW_SETTINGS");
   },
-  showLanguageModal({commit}) {
+  showLanguageModal({ commit }) {
     commit("SHOW_LANGUAGE_MODAL");
   },
-  showUpdateModal({commit}) {
+  showUpdateModal({ commit }) {
     commit("SHOW_UPDATE_MODAL");
-  },
+  }, showAward({ commit }) {//2
+    commit("SHOW_AWARD");
+  }, hideAward({ commit }) {
+    commit("HIDE_AWARD");
+  }
 };
 
 export default {

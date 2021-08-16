@@ -63,7 +63,7 @@
     "yes_remove_it": "Sim, remova",
     "you_are_going_to_remove": "Você vai remover o Board"
   },
-  "modals": {
+  "modals": {"award":"獎勵",
     "accept_editing_item": "Aceitar Edição de Item",
     "action": "Ação",
     "add": "Adicionar",

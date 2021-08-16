@@ -63,7 +63,7 @@
     "yes_remove_it": "Da, makni",
     "you_are_going_to_remove": "Maknut ćeš ploču"
   },
-  "modals": {
+  "modals": {"award":"獎勵",
     "accept_editing_item": "Prihvati uređivanje stavke",
     "action": "Akcija",
     "add": "Dodaj",
