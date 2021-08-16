@@ -81,7 +81,7 @@
       />
       <!--0-->
     </Tooltip>
-    <Tooltip
+    <!--Tooltip
       :content="$t('modals.award')"
       placement="bottom"
       :transfer="true"
@@ -92,8 +92,8 @@
         class="action-icon"
         @click="showAward"
       />
-      <!--0-->
-    </Tooltip>
+      
+    </Tooltip-->
   </div>
 </template>
 
@@ -140,12 +140,10 @@ export default {
     },
     showSettingsModal() {
       this.$store.dispatch("showSettingsModal"); //1
-    },
+    },/*
     showAward() {
-      this.$store.dispatch("showAward"); //1
-            //this.$store.dispatch("showLanguageModal"); //1
-
-    },
+      this.$store.dispatch("showAward");
+    },*/
     showCloudModal() {
       this.$store.dispatch("showCloudModal");
     }
