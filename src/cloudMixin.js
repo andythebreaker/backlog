@@ -18,7 +18,7 @@ export default {
           this.$Message.error(this.$t('cloud.invalid_username_password'));
           this.$store.dispatch('setConnectionError', `${response.status}:${response.data}`);
           this.$store.dispatch('setCloudToken', {token: '', username: ''});
-          console.log(response);
+          //console.log(response);
         });
     },
     initialSyncBoards() {
