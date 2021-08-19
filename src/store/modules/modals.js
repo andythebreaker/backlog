@@ -1,4 +1,5 @@
 import boardsRepository from "./../../repositories/boardsRepository";
+import awardRepository from './../../repositories/awardRepository';
 
 const remote = require("electron").remote;
 const version = remote.app.getVersion();
@@ -213,6 +214,10 @@ const actions = {
     commit("SHOW_AWARD");
   }, hideAward({ commit }) {
     commit("HIDE_AWARD");
+  }, getStreamableVideos() {
+    return awardRepository.getStreamableVideos();
+  }, setupStreamableVideos() {
+    awardRepository.setupStreamableVideos();
   }
 };
 

@@ -60,9 +60,67 @@ export default {
         this.HTMLcontent = `<p>fetching...</p>`;
         this.closeModal();
       } else {
+        this.$store
+          .dispatch("getStreamableVideos")
+          .then(return_getStreamableVideos => {
+            if (return_getStreamableVideos) {
+              var streamable_files = return_getStreamableVideos;
+              var random_streamable_files =
+                streamable_files[
+                  this.getRandomIntInclusive(0, streamable_files.length - 1)
+                ];
+              this.award_video_info = "[" + random_streamable_files + "] => ";
+              fetch(
+                "https://api.streamable.com/videos/" + random_streamable_files,
+                {
+                  method: "GET"
+                }
+              )
+                .then(res => {
+                  if (res.ok) {
+                    return res.json();
+                  } else {
+                    throw new Error("RES ERROR : NOT OK");
+                  }
+                })
+                .then(response => {
+                  this.award_video_info = this.award_video_info + response.url;
+                  /*this.streamable_api_src = response.files.mp4.url;
+            this.streamable_api_width = response.files.mp4.width;
+            this.streamable_api_height = response.files.mp4.height;*/
+                  this.HTMLcontent = `
+            <video
+      width="${response.files.mp4.width}"
+      height="${response.files.mp4.height}"
+      controls
+      autoplay
+      id="streamable_video_element"
+    >
+      <source src="${response.files.mp4.url}" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>`;
+                  /*TODO:
+    adjest width and height -> don't extend fram
+    json let list out
+    */
+                  this.$refs.find_viedo_element_then_add_ended_event.click();
+                })
+                .catch(error => {
+                  this.award_video_info =
+                    this.award_video_info +
+                    "streamable api [" +
+                    error.toString() +
+                    "]";
+                });
+            } else {
+              this.award_video_info =
+                "streamable videos data doesn't exist, the video won't be display and you need to manualy close this pop up window.";
+            }
+          });
+
         //this.award_video_info = this.clientWidth();
-        var streamable_files = [
-          /*"69ojm",
+        /*var streamable_files = [
+          "69ojm",
           "4qevbm",
           "stfvfh",
           "3m33i",
@@ -76,28 +134,7 @@ export default {
           "hqlo66",
           "u8v6a",
           "1kb8dl"
-          ,*/ /*"b4puyh",
-          "hn8hq",
-          "bgwrtj"*/
-          "wyxjvo",
-          "aj52e0",
-          "hk4fxo"
         ];
-
-        /*fetch(url).then((response) => {
-  if (response.ok) {
-    return response.json();
-  } else {
-    throw new Error('Something went wrong');
-  }
-})
-.then((responseJson) => {
-  // Do something with the response
-})
-.catch((error) => {
-  console.log(error)
-});*/
-
         fetch(
           "https://api.streamable.com/videos/" +
             streamable_files[
@@ -116,9 +153,6 @@ export default {
           })
           .then(response => {
             this.award_video_info = response.url;
-            /*this.streamable_api_src = response.files.mp4.url;
-            this.streamable_api_width = response.files.mp4.width;
-            this.streamable_api_height = response.files.mp4.height;*/
             this.HTMLcontent = `
             <video
       width="${response.files.mp4.width}"
@@ -130,17 +164,11 @@ export default {
       <source src="${response.files.mp4.url}" type="video/mp4" />
       Your browser does not support the video tag.
     </video>`;
-            /*TODO:
-    adjest width and height -> don't extend fram
-    auto close video
-    and remove html when close pop up
-    json let list out
-    */
             this.$refs.find_viedo_element_then_add_ended_event.click();
           })
           .catch(error => {
             this.award_video_info = "streamable api [" + error.toString() + "]";
-          });
+          });*/
       }
     },
     closeModal() {
