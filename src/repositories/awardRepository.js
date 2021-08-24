@@ -1,4 +1,5 @@
 const { db } = require("./../persistence");
+import { Random, MersenneTwister19937 } from "random-js";
 
 const streamableVideos_default_array = [
     /*"b4puyh",
@@ -63,5 +64,13 @@ export default {
         var tmp_array = this.getStreamableVideos();
         tmp_array.push(stringStreamableVideoURL);
         this.rewriteStreamableVideos(tmp_array);
+    }, getRandomStreamableVideo() {
+        var tmp_array = this.getStreamableVideos();
+        if (tmp_array) {
+            const random = new Random(MersenneTwister19937.autoSeed());
+            return tmp_array[random.integer(0, tmp_array.length - 1)];
+        } else {
+            return null;
+        }
     }
 };

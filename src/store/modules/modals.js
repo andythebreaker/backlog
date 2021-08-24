@@ -218,6 +218,8 @@ const actions = {
     return awardRepository.getStreamableVideos();
   }, setupStreamableVideos() {
     awardRepository.setupStreamableVideos();
+  }, getRandomStreamableVideo() {
+    return awardRepository.getRandomStreamableVideo();
   }
 };
 

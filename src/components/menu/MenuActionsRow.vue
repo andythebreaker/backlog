@@ -81,6 +81,11 @@
       />
       <!--0-->
     </Tooltip>
+
+    <div class="input-group">
+      <button @click="countdown" ref="time_countdown_trig">MIN</button>
+      <input ref="myDiv" type="text" name="event-name" autofocus />
+    </div>
     <!--Tooltip
       :content="$t('modals.award')"
       placement="bottom"
@@ -140,12 +145,49 @@ export default {
     },
     showSettingsModal() {
       this.$store.dispatch("showSettingsModal"); //1
-    },/*
+    } /*
     showAward() {
       this.$store.dispatch("showAward");
-    },*/
+    },*/,
     showCloudModal() {
       this.$store.dispatch("showCloudModal");
+    },
+    startTimer(duration, display) {
+      var start = Date.now(),
+        diff,
+        minutes,
+        seconds;
+      function timer() {
+        // get the number of seconds that have elapsed since
+        // startTimer() was called
+        diff = duration - (((Date.now() - start) / 1000) | 0);
+
+        // does the same job as parseInt truncates the float
+        minutes = (diff / 60) | 0;
+        seconds = diff % 60 | 0;
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (diff <= 0) {
+          // add one second so that the count down starts at the full duration
+          // example 05:00 not 04:59
+          start = Date.now() + 1000;
+          display.style.backgroundColor = "#ddb98b";
+        }
+      }
+      // we don't want to wait a full second before the timer starts
+      timer();
+      this.$refs.time_countdown_trig.value = setInterval(timer, 1000);
+    },
+    countdown() {
+      if (this.$refs.time_countdown_trig.value) {
+        clearInterval(this.$refs.time_countdown_trig.value);
+      }
+      this.startTimer(parseInt(this.$refs.myDiv.value, 10) * 60, event.target);
+      this.$refs.time_countdown_trig.style.backgroundColor = "#a9a9a9";
     }
   }
 };
@@ -203,5 +245,51 @@ svg {
 
 svg:hover {
   color: #fff;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin-bottom: 16px;
+}
+.input-group button {
+  display: block;
+  font-size: 1.1em;
+  padding: 3px;
+  background-color: #333;
+  color: #f5f5f5;
+}
+.input-group input {
+  width: 100%;
+  max-width: 100%;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  font-size: 2em;
+  padding: 6px;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+.input-group input:focus {
+  outline: none;
+  border-color: #333;
+}
+.input-group select {
+  width: 100%;
+  height: 100%;
+  margin-top: 0;
+  font-size: 2em;
+  padding: 3px;
+  border: none;
+  color: #333;
+}
+.input-group select:focus {
+  outline: none;
+}
+.input-group option {
+  font-weight: 100;
+}
+.input-group option:focus {
+  outline: none;
 }
 </style>

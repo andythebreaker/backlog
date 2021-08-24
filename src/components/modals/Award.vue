@@ -61,34 +61,40 @@ export default {
         this.closeModal();
       } else {
         this.$store
-          .dispatch("getStreamableVideos")
-          .then(return_getStreamableVideos => {
-            if (return_getStreamableVideos) {
-              var streamable_files = return_getStreamableVideos;
+          .dispatch(/*"getStreamableVideos"*/ "getRandomStreamableVideo")
+          .then(
+            /*return_getStreamableVideos*/ return_getStreamableVideo => {
+              if (/*return_getStreamableVideos*/ return_getStreamableVideo) {
+                /*var streamable_files = return_getStreamableVideos;
               var random_streamable_files =
                 streamable_files[
                   this.getRandomIntInclusive(0, streamable_files.length - 1)
-                ];
-              this.award_video_info = "[" + random_streamable_files + "] => ";
-              fetch(
-                "https://api.streamable.com/videos/" + random_streamable_files,
-                {
-                  method: "GET"
-                }
-              )
-                .then(res => {
-                  if (res.ok) {
-                    return res.json();
-                  } else {
-                    throw new Error("RES ERROR : NOT OK");
+                ];*/
+                this.award_video_info =
+                  "[" +
+                  /*random_streamable_files*/ return_getStreamableVideo +
+                  "] => ";
+                fetch(
+                  "https://api.streamable.com/videos/" +
+                    /*random_streamable_files*/ return_getStreamableVideo,
+                  {
+                    method: "GET"
                   }
-                })
-                .then(response => {
-                  this.award_video_info = this.award_video_info + response.url;
-                  /*this.streamable_api_src = response.files.mp4.url;
+                )
+                  .then(res => {
+                    if (res.ok) {
+                      return res.json();
+                    } else {
+                      throw new Error("RES ERROR : NOT OK");
+                    }
+                  })
+                  .then(response => {
+                    this.award_video_info =
+                      this.award_video_info + response.url;
+                    /*this.streamable_api_src = response.files.mp4.url;
             this.streamable_api_width = response.files.mp4.width;
             this.streamable_api_height = response.files.mp4.height;*/
-                  this.HTMLcontent = `
+                    this.HTMLcontent = `
             <video
       width="${response.files.mp4.width}"
       height="${response.files.mp4.height}"
@@ -99,24 +105,25 @@ export default {
       <source src="${response.files.mp4.url}" type="video/mp4" />
       Your browser does not support the video tag.
     </video>`;
-                  /*TODO:
+                    /*TODO:
     adjest width and height -> don't extend fram
     json let list out
     */
-                  this.$refs.find_viedo_element_then_add_ended_event.click();
-                })
-                .catch(error => {
-                  this.award_video_info =
-                    this.award_video_info +
-                    "streamable api [" +
-                    error.toString() +
-                    "]";
-                });
-            } else {
-              this.award_video_info =
-                "streamable videos data doesn't exist, the video won't be display and you need to manualy close this pop up window.";
+                    this.$refs.find_viedo_element_then_add_ended_event.click();
+                  })
+                  .catch(error => {
+                    this.award_video_info =
+                      this.award_video_info +
+                      "streamable api [" +
+                      error.toString() +
+                      "]";
+                  });
+              } else {
+                this.award_video_info =
+                  "streamable videos data doesn't exist, the video won't be display and you need to manualy close this pop up window.";
+              }
             }
-          });
+          );
 
         //this.award_video_info = this.clientWidth();
         /*var streamable_files = [
